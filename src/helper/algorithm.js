@@ -42,7 +42,7 @@ export function luckydrawHandler(total, won = [], num,allin,remain) {
   let actualNum = num;
   //当是没人只能抽中一次时，判断当奖项的抽取数>剩余人数时，只能抽取剩余人数
 
-  if(!allin && (remainPeople<remain)){
+  if(!allin && (remainPeople<remain) && (num > remainPeople)){
     actualNum=remainPeople
   }
   console.log("actualNum",actualNum)
