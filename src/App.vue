@@ -2,6 +2,20 @@
   <div id="root">
     <header>
       <Publicity v-show="!running" />
+      <el-button
+      class="audio"
+      type="text"
+      @click="
+        () => {
+          playAudio(!audioPlaying);
+        }
+      "
+    >
+      <i class="iconfont"
+        
+        :class="[audioPlaying ? 'icon-yinliang-L' : 'icon-jingyin-L']"
+      ></i>
+    </el-button>
       <el-button class="res" type="text" @click="showResult = true">
         抽奖结果
       </el-button>
@@ -78,20 +92,7 @@
       </div>
     </transition>
 
-    <el-button
-      class="audio"
-      type="text"
-      @click="
-        () => {
-          playAudio(!audioPlaying);
-        }
-      "
-    >
-      <i
-        
-        :class="[audioPlaying ? 'el-icon-video-pause' : 'el-icon-video-play']"
-      ></i>
-    </el-button>
+
 
     <LotteryConfig :visible.sync="showConfig" @resetconfig="reloadTagCanvas" />
     <Tool 
@@ -290,6 +291,8 @@ export default {
 
   data() {
     return {
+      localRemain:undefined,
+      localAllin:false,
       listStr: '',
       running: false,
       showRes: false,
@@ -322,7 +325,7 @@ export default {
     showImport(v){
       if(v==true) {
         if(this.list){
-        let result =" ";
+        let result ="";
         this.list.forEach(item =>{
           result = result +item.key + " " + item.name + "\n";
          })
@@ -543,19 +546,24 @@ this.$nextTick(() => {
         this.loadAudio();
 
         const { number } = config;
+        //remain 剩余人数
         const { category, mode, qty, remain, allin } = form;
         let num = 1;
-        if (mode === 1 || mode === 5) {
+        if (mode === 1 || mode === 5) {//抽一人或者5人
           num = mode;
-        } else if (mode === 0) {
+        } else if (mode === 0) {//一次性抽取
           num = remain;
-        } else if (mode === 99) {
+        } else if (mode === 99) {//自定义
           num = qty;
         }
+        this.localRemain=remain;
+        this.localAllin=allin;
         const resArr = luckydrawHandler(
           number,
           allin ? [] : this.allresult,
-          num
+          num,
+          this.localAllin,
+          this.localRemain
         );
         const newResArr= resArr.map((item)=>{
           const findName=this.list.find(o => o.key==item)
@@ -609,16 +617,16 @@ this.$nextTick(() => {
 };
 </script>
 <style lang="scss">
-i.el-icon-video-pause {
-  font-size: 43px;
+i.icon-yinliang-L {
+  font-size: 27px;
 }
-i.el-icon-video-play {
-  font-size: 43px;
+i.icon-jingyin-L {
+  font-size: 27px;
 }
 #root {
   height: 100%;
   position: relative;
-  background-image: url('./assets/bg3.png');
+  background-image: url('./assets/bg4.jpg');
   background-size: 100% 100%;
   background-position: center center;
   background-repeat: no-repeat;
@@ -642,6 +650,10 @@ i.el-icon-video-play {
       &.res {
         right: 100px;
       }
+      &.audio{
+        right: 166px;
+        top: 13px;
+      }
     }
     .el-dropdown {
       color: #409eff;
@@ -654,21 +666,7 @@ i.el-icon-video-play {
       }
     }
   }
-  .audio {
-    position: absolute;
-    top: 100px;
-    right: 30px;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    padding: 0;
-    text-align: center;
-    .iconfont {
-      position: relative;
-      left: 1px;
-    }
-    
-  }
+
   .copy-right {
     position: absolute;
     right: 0;

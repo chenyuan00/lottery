@@ -159,6 +159,18 @@ export default {
     closeRes: Function
   },
   computed: {
+    allresult() {
+      let allresult = [];
+      for (const key in this.result) {
+        if (this.result.hasOwnProperty(key)) {
+          const element = this.result[key].map((item)=>{
+            return item.key;
+          });
+          allresult = allresult.concat(element);
+        }
+      }
+      return allresult;
+    },
     config: {
       get() {
         return this.$store.state.config;
@@ -298,6 +310,11 @@ export default {
       }
       if (this.config.number != this.list.length) {
         return this.$message.error('抽奖人数与名单人数不匹配，请重新配置');
+      }
+       //每次抽取前判断还有没有剩余人数
+      const remainPeople=this.config.number - this.allresult.length
+      if(remainPeople<=0 && !this.form.allin){
+        return this.$message.warning('全员已全部抽奖成功');
       }
       this.showSetwat = false;
       this.$emit(

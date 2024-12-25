@@ -1,0 +1,23 @@
+{
+  "id": "4593825",
+  "name": "no name",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "38321781",
+      "name": "音量-L",
+      "font_class": "yinliang-L",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "38321782",
+      "name": "静音-L",
+      "font_class": "jingyin-L",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    }
+  ]
+}

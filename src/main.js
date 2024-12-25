@@ -6,6 +6,7 @@ import Element from 'element-ui';
 import '@/assets/style/index.scss';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/lib/tagcanvas.js';
+import '@/assets/iconfont/iconfont.css';
 Vue.config.productionTip = false;
 
 Vue.use(Element);

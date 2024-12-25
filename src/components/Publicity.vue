@@ -79,7 +79,7 @@ export default {
     color: black;
     font-size: 28px;
     .title {
-      color: black;
+      color: #ffff01;
     }
     .value {
       margin-left: 10px;

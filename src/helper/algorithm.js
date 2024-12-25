@@ -33,11 +33,20 @@ export function randomNum(minNum = 1, maxNum) {
  * @param {array} won 已中奖
  * @param {number} num 本次抽取人数
  */
-export function luckydrawHandler(total, won = [], num) {
+export function luckydrawHandler(total, won = [], num,allin,remain) {
   const peolist = generateArray(1, Number(total));
+  console.log("peolist",peolist)
   const wons = won;
   const res = [];
-  for (let j = 0; j < num; j++) {
+  const remainPeople = total - wons.length;//剩余人数
+  let actualNum = num;
+  //当是没人只能抽中一次时，判断当奖项的抽取数>剩余人数时，只能抽取剩余人数
+
+  if(!allin && (remainPeople<remain)){
+    actualNum=remainPeople
+  }
+  console.log("actualNum",actualNum)
+  for (let j = 0; j < actualNum; j++) {
     const nodraws = peolist.filter(item => !wons.includes(item));
     const current = nodraws[randomNum(1, nodraws.length) - 1];
     res.push(current);
